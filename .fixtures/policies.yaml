@@ -1,0 +1,47 @@
+admin_policy:
+  - share.add_baseuserinfo
+  - share.change_baseuserinfo
+  - share.delete_baseuserinfo
+  - share.view_baseuserinfo
+  - user.add_buyeruser
+  - user.change_buyeruser
+  - user.delete_buyeruser
+  - user.view_buyeruser
+  - user.add_group
+  - user.change_group
+  - user.delete_group
+  - user.view_group
+  - user.add_policy
+  - user.change_policy
+  - user.delete_policy
+  - user.view_policy
+  - user.add_selleruser
+  - user.change_selleruser
+  - user.delete_selleruser
+  - user.view_selleruser
+  - user.add_user
+  - user.change_user
+  - user.change_user_me
+  - user.delete_user
+  - user.view_all_users
+  - user.view_user
+  - user.view_user_me
+
+
+seller_policy:
+  - user.view_buyeruser
+  - user.view_policy
+  - user.view_selleruser
+  - user.change_user
+  - user.change_user_me
+  - user.view_user
+  - user.view_user_me
+
+buyer_policy:
+  - user.view_buyeruser
+  - user.view_policy
+  - user.view_selleruser
+  - user.change_user
+  - user.change_user_me
+  - user.view_user
+  - user.view_user_me

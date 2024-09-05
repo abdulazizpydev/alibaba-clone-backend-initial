@@ -5,6 +5,7 @@ services:
     restart: always
     volumes:
       - .:/ecommerce
+      - static_volume:/ecommerce/static
     image: ecommerce_app:latest
     build: .
     env_file:
@@ -36,6 +37,8 @@ services:
       - .env.example
     expose:
       - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=${DB_USER-ecommerce_user}
       - POSTGRES_PASSWORD=${DB_PASSWORD-ecommerce_user_password}
@@ -43,5 +46,22 @@ services:
     networks:
       - ecommerce_network
 
+  celery_worker:
+    container_name: ecommerce_celery_worker
+    image: ecommerce_app:latest
+    restart: always
+    build: .
+    depends_on:
+      - ecommerce_app
+      - ecommerce_redis_host
+    env_file:
+      - .env.example
+    networks:
+      - ecommerce_network
+
 networks:
   ecommerce_network:
+
+volumes:
+  postgres_data:
+  static_volume:
