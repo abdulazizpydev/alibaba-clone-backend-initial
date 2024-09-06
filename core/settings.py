@@ -46,6 +46,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'user.backends.CustomModelBackend',
+]
+
 ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
