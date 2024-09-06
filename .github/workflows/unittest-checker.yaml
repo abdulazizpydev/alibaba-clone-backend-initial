@@ -47,8 +47,9 @@ jobs:
 
       - name: Move tests folder from original to forked
         run: |
-          rm -rf forked-repo/tests
+          rm -rf forked-repo/apps/tests
           ls original-repo/
+          ls forked-repo/
           mv original-repo/apps/tests forked-repo/apps/
           rm -rf original-repo
 
