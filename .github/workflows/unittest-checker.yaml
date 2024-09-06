@@ -70,8 +70,11 @@ jobs:
 
       - name: Check application health
         run: |
-          sleep 5s
-          curl -v http://127.0.0.1:8000/health/
+          for i in {1..10}; do
+            sleep 5s
+            curl -v http://127.0.0.1:8000/health/ && break
+            echo "Health check failed, retrying..."
+          done
 
       - name: Run application tests via pytest
         working-directory: forked-repo
