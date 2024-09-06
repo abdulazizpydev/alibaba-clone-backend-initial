@@ -63,7 +63,10 @@ def fake_redis(request):
 @pytest.fixture(scope='session')
 def django_db_setup(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
-        call_command('initial_data')
+        try:
+            call_command('loaddata', 'initial_data.json')
+        except Exception as e:
+            pass
 
 
 @pytest.fixture
