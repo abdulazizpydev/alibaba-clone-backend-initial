@@ -48,7 +48,7 @@ jobs:
       - name: Move tests folder from original to forked
         run: |
           rm -rf forked-repo/tests
-          mv original-repo/tests forked-repo/
+          mv original-repo/apps/tests forked-repo/apps/
           rm -rf original-repo
 
       - name: Create .env file from .env.example
@@ -66,7 +66,7 @@ jobs:
           sleep 5s
           docker ps -a
           sleep 5s
-          docker logs medium_app
+          docker logs ecommerce_app
 
       - name: Check application health
         run: |
@@ -75,7 +75,7 @@ jobs:
 
       - name: Run application tests via pytest
         working-directory: forked-repo
-        run: docker compose exec medium_app pytest ${{ github.event.inputs.tests_path }} --cache-clear -vv --json-report --json-report-file=./reports/unittest-checker-report.json --json-report-indent=2
+        run: docker compose exec ecommerce_app pytest ${{ github.event.inputs.tests_path }} --cache-clear -vv --json-report --json-report-file=./reports/unittest-checker-report.json --json-report-indent=2
         continue-on-error: true
 
       - name: Upload created pytest report file as an artifact
