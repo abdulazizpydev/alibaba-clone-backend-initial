@@ -46,6 +46,15 @@ def signup_data(request, user_factory, mocker):
             409, None, None, resp
         )
 
+    def email_exists():
+        user.is_verified = True
+        user.save()
+        resp.update({'email': user.email})
+
+        return (
+            409, None, None, resp
+        )
+
     def phone_number_exists_with_not_existing_user():
         """
         Bu yerda user.views.redis_conn.exists() True qaytarishini taminlaydi
@@ -170,6 +179,7 @@ def signup_data(request, user_factory, mocker):
         'valid_data': valid_data,
         'valid_data_with_existing_user': valid_data_with_existing_user,
         'phone_number_exists': phone_number_exists,
+        'email_exists': email_exists,
         'phone_number_exists_with_not_existing_user': phone_number_exists_with_not_existing_user,
         'invalid_first_name': invalid_first_name,
         'empty_first_name': empty_first_name,
@@ -197,6 +207,7 @@ def signup_data(request, user_factory, mocker):
         'valid_data',
         'valid_data_with_existing_user',
         'phone_number_exists',
+        'email_exists',
         'phone_number_exists_with_not_existing_user',
         'invalid_first_name',
         'empty_first_name',
@@ -223,13 +234,13 @@ def test_signup(signup_data, api_client, mocker):
     """
     Bu yerda moker funksiyasi yordamida redis_conn, generate_otp, send_email 
     funksiyalari mock qilinadi. Yani siz mocker orqali yuborgan malumotlar ishlatiladi.
-    
+
     user.views.redis_conn   
     user.views.generate_otp
     user.views.send_email
-    
+
     Mock ishlatishdan sabab ushbu funksiyalar ishlashi talab qilinmaydi.
-    
+
     """
 
     mocker.patch('user.views.redis_conn', redis_conn)
