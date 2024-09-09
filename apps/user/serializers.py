@@ -7,7 +7,7 @@ from rest_framework.exceptions import ValidationError
 from share.utils import CustomPasswordValidator
 from share.enums import UserRole, GenderChoices
 
-from user.fields import PhoneNumberField
+from user.fields import PhoneNumberField, OtpCodeField
 from user.models import User, BuyerUser, SellerUser
 
 
@@ -84,3 +84,8 @@ class SignUpRequestSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(_("Invalid user role provided!"), 400)
 
         return user
+
+
+class VerifyCodeSerializer(serializers.Serializer):
+    otp_code = OtpCodeField()
+    phone_number = PhoneNumberField()

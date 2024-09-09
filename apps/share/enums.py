@@ -23,3 +23,7 @@ class PolicyNameEnum(BaseEnum):
 class GenderChoices(BaseEnum):
     MALE = "male"
     FEMALE = "female"
+
+class TokenType(str, Enum):
+    ACCESS = "access"
+    REFRESH = "refresh"

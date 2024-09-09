@@ -3,10 +3,11 @@ from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 from django_redis import get_redis_connection
 
-from share.utils import send_email, generate_otp
+from share.utils import send_email, generate_otp, check_otp
 
 from .serializers import *
 from .models import User
+from .services import UserService
 
 redis_conn = get_redis_connection("default")
 
@@ -56,3 +57,29 @@ class SignUpView(generics.CreateAPIView):
             "phone_number": phone_number,
             "otp_secret": otp_secret
         }, status=status.HTTP_201_CREATED)
+
+
+class VerifyView(generics.UpdateAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = VerifyCodeSerializer
+    http_method_names = ['patch']
+    authentication_classes = []
+
+    def patch(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        otp_code = serializer.validated_data['otp_code']
+        phone_number = serializer.validated_data['phone_number']
+        otp_secret = kwargs.get('otp_secret')
+        check_otp(phone_number, otp_code, otp_secret)
+        user = User.objects.filter(phone_number=phone_number, is_verified=False).first()
+        if not user:
+            return Response({"detail": _("Unverified user not found!")}, status=status.HTTP_404_NOT_FOUND)
+        user.is_verified = True
+        user.is_active = True
+        user.save()
+        redis_conn.delete(f"{phone_number}:otp")
+        redis_conn.delete(f"{phone_number}:otp_secret")
+        tokens = UserService.create_tokens(user)
+        return Response(tokens, status=status.HTTP_200_OK)
+

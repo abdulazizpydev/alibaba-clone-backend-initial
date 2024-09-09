@@ -8,5 +8,6 @@ router = routers.SimpleRouter()
 
 urlpatterns = [
     path("register/", views.SignUpView.as_view(), name='register'),
+    path("register/verify/<str:otp_secret>/", views.VerifyView.as_view(), name='verify'),
     path('', include(router.urls)),
 ]
