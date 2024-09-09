@@ -153,14 +153,14 @@ REDIS_PORT = config('REDIS_PORT', default=6379)
 REDIS_DB = config('REDIS_DB', default='0')
 REDIS_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}'
 
-# CELERY_BROKER_URL = REDIS_URL
-# CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
 
-# CELERY_TIMEZONE = "Asia/Tashkent"
-# CELERY_TASK_TRACK_STARTED = True
-# CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_TIMEZONE = "Asia/Tashkent"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
 
-# broker_connection_retry_on_startup = True
+broker_connection_retry_on_startup = True
 
 CACHES = {
     'default': {
