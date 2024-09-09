@@ -74,105 +74,105 @@ def signup_data(request, user_factory, mocker):
         resp.update({'first_name': {'foo': 'bar'}})
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def empty_first_name():
         resp.update({'first_name': ''})
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def required_first_name():
         resp.pop('first_name')
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def invalid_last_name():
         resp.update({'last_name': {'foo': 'bar'}})
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def empty_last_name():
         resp.update({'last_name': ''})
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def required_last_name():
         resp.pop('last_name')
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def invalid_password():
         resp.update({'password': {'foo': 'bar'}})
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def check_has_digit():
         resp.update({'password': 'password'})
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def check_min_length():
         resp.update({'password': 'pas12'})
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def empty_password():
         resp.update({'password': ''})
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def required_password():
         resp.pop('password')
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def invalid_confirm_password():
         resp.update({'confirm_password': {'foo': 'bar'}})
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def empty_confirm_password():
         resp.update({'confirm_password': ''})
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def required_confirm_password():
         resp.pop('confirm_password')
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     def not_match_passwords():
         resp.update({'confirm_password': 'fake_password'})
 
         return (
-            422, None, None, resp
+            400, None, None, resp
         )
 
     data = {
