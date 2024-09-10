@@ -9,5 +9,5 @@ def index(request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("health/", index),
-    path("users/", include("user.urls", namespace="user")),
+    path("api/users/", include("user.urls", namespace="user")),
 ]
