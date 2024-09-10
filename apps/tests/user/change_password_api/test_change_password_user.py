@@ -220,12 +220,12 @@ def test_change_password(change_password_data, api_client, tokens):
     else:
         access = "fake_access"
     client = api_client(token=access)
-    resp = client.put('/users/change/password/', data=req_json, format='json')
+    resp = client.put('/api/users/change/password/', data=req_json, format='json')
     assert resp.status_code == status_code
 
     if status_code == 200:
         resp = client.post(
-            '/users/login/',
+            '/api/users/login/',
             data={
                 'email_or_phone_number': user.phone_number,
                 'password': req_json['new_password'],

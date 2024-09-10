@@ -105,7 +105,7 @@ def test_forgot_password(request, forgot_password_data, api_client, mocker):
     mocker.patch('user.views.send_email', return_value=return_data['send_email'])
 
     client = api_client()
-    resp = client.post('/users/password/forgot/', data=return_data['req_json'], format='json')
+    resp = client.post('/api/users/password/forgot/', data=return_data['req_json'], format='json')
     assert resp.status_code == return_data['status_code']
 
     if resp.status_code == 200:
@@ -220,7 +220,7 @@ def test_forgot_password_verify(forgot_password_verify_data, api_client, mocker)
     otp_secret = return_data['otp_secret']
 
     resp = client.post(
-        f'/users/password/forgot/verify/{otp_secret}/',
+        f'/api/users/password/forgot/verify/{otp_secret}/',
         data=return_data['req_json'], format='json'
     )
     assert resp.status_code == return_data['status_code']
@@ -367,7 +367,7 @@ def test_reset_password(reset_password_data, api_client, mocker):
 
     client = api_client()
     resp = client.patch(
-        '/users/password/reset/',
+        '/api/users/password/reset/',
         data=return_data['req_json'], format='json'
     )
     assert resp.status_code == return_data['status_code']

@@ -54,7 +54,7 @@ def test_user_me(user_me_data, api_client):
     user, access, data, status = user_me_data()
 
     client = api_client(token=access)
-    resp = client.patch('/users/me/', data, format='json')
+    resp = client.patch('/api/users/me/', data, format='json')
     assert resp.status_code == status
 
     if status == 200:
@@ -122,7 +122,7 @@ def test_user_read(request, user_read_data, api_client):
     test_node = request.node.name
     status_code, access, user_id = user_read_data()
     client = api_client(token=access)
-    resp = client.get(f'/users/me/')
+    resp = client.get(f'/api/users/me/')
     assert resp.status_code == status_code
     if status_code == 200:
         resp_json = resp.json()

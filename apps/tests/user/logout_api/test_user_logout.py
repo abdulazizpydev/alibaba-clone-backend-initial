@@ -58,11 +58,11 @@ def test_logout(logout_data, mocker, fake_redis, request, tokens):
                  side_effect=lambda user_id, token, token_type, lifetime: fake_redis.sadd(
                      f'user:{user_id}:{token_type}', b'fake_token'))
 
-    resp = client.post('/users/logout/')
+    resp = client.post('/api/users/logout/')
     assert resp.status_code == status_code
 
     if status_code == 200:
-        resp = client.get('/users/me/')
+        resp = client.get('/api/users/me/')
         assert resp.status_code == 401
 
     if test_name == 'test_logout[valid_with_stored_tokens]':

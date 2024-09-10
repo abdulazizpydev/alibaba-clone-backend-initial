@@ -148,7 +148,7 @@ def test_verify_otp(
     mocker.patch('user.views.check_otp', side_effect=return_data["check_otp_exception"])
 
     resp = client.patch(
-        f'/users/register/verify/{return_data["otp_secret"]}/',
+        f'/api/users/register/verify/{return_data["otp_secret"]}/',
         data=return_data["req_json"],
         format='json'
     )

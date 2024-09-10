@@ -247,7 +247,7 @@ def test_signup(signup_data, api_client, mocker):
     mocker.patch('user.views.generate_otp', return_value=('123456', '1v8z0Of5sJ0XI3cpNcHWrofrHZfY0oGJZbvGW4siTs0'))
     mocker.patch('user.views.send_email', return_value=email_status)
 
-    resp = client.post('/users/register/', data=req_json, format='json')
+    resp = client.post('/api/users/register/', data=req_json, format='json')
 
     """
     Responsedan qaytgan status code, kutilayotgan status kodga teng ekanligi tekshirish.
