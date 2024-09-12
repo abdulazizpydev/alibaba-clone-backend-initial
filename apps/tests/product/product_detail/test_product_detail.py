@@ -36,7 +36,7 @@ class TestProductAPIs:
 
         self.url = '/products/'
 
-    def test_get_product_detail_no_permission(self, api_client):
+    def test_get_product_detail_unauthorized(self, api_client):
         client = api_client()
         response = client.get(f'{self.url}{self.product.id}/')
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
