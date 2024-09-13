@@ -16,7 +16,7 @@ class TestProductListAPI:
         self.access, _ = tokens(self.user)
 
         self.client = api_client(self.access)
-        self.url = '/products/'
+        self.url = '/api/products/'
 
         self.category = category_factory(name="Electronics")
         self.product1 = product_factory(title="product1", category=self.category)

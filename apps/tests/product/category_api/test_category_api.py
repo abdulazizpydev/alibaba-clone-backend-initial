@@ -8,7 +8,7 @@ class TestCategoryViewSet:
 
     @pytest.fixture(autouse=True)
     def setup(self, user_factory, tokens, api_client):
-        self.api = '/products/categories/'
+        self.api = '/api/products/categories/'
 
         self.user = user_factory()
         buyer_group = Group.objects.get(name="buyer")
