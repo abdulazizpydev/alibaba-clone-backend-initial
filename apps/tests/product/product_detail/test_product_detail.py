@@ -34,9 +34,9 @@ class TestProductAPIs:
         self.category = category_factory(name="Electronics")
         self.product = product_factory(category=self.category, seller=self.seller_user, title="Sample Product")
 
-        self.url = '/products/'
+        self.url = '/api/products/'
 
-    def test_get_product_detail_unauthorized(self, api_client):
+    def test_get_product_detail_no_permission(self, api_client):
         client = api_client()
         response = client.get(f'{self.url}{self.product.id}/')
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -78,8 +78,7 @@ class TestProductAPIs:
             "category": str(self.category.id),
             "seller": str(self.seller_user.id),
             "title": "",
-            "min_price": 0,
-            "max_price": 0,
+            "price": 0,
             "description": "",
             "quantity": 0
         }

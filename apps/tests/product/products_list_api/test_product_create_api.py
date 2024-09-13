@@ -17,15 +17,14 @@ class TestProductCreateAPI:
 
         self.category = category_factory(name="Electronics")
 
-        self.url = '/products/'
+        self.url = '/api/products/'
 
     @pytest.mark.parametrize("payload, expected_status", [
         ({
              "category": 1,
              "seller": 1,
              "title": "New Product",
-             "min_price": 100,
-             "max_price": 200,
+             "price": 100,
              "description": "A great product"
          },
          status.HTTP_201_CREATED),
@@ -33,8 +32,7 @@ class TestProductCreateAPI:
              "category": 1,
              "seller": 1,
              "title": "Another Product",
-             "min_price": 150,
-             "max_price": 250,
+             "price": 150,
              "description": "Another great product"
          },
          status.HTTP_201_CREATED),
@@ -47,17 +45,15 @@ class TestProductCreateAPI:
         assert response.status_code == expected_status
         if response.status_code == status.HTTP_201_CREATED:
             assert response.json()['title'] == payload['title']
-            assert response.json()['min_price'] == payload['min_price']
-            assert response.json()['max_price'] == payload['max_price']
+            assert response.json()['price'] == payload['price']
 
     @pytest.mark.parametrize("payload, expected_status", [
         ({}, status.HTTP_400_BAD_REQUEST),
         ({"title": ""}, status.HTTP_400_BAD_REQUEST),
-        ({"min_price": 100}, status.HTTP_400_BAD_REQUEST),
+        ({"price": 100}, status.HTTP_400_BAD_REQUEST),
         ({
              "title": "Incomplete Product",
-             "min_price": -10,
-             "max_price": -20
+             "price": -10
          }, status.HTTP_400_BAD_REQUEST),
     ])
     def test_invalid_product_data(self, payload, expected_status):
@@ -84,8 +80,7 @@ class TestProductCreateAPI:
             "category": self.category.id,
             "seller": self.user.id,
             "title": "Product",
-            "min_price": 100,
-            "max_price": 200,
+            "price": 100,
             "description": "A product by no permission user"
         }
         response = client.post(self.url, data=payload, format='json')
@@ -96,8 +91,7 @@ class TestProductCreateAPI:
             "category": self.category.id,
             "seller": self.user.id,
             "title": "Coffee Machine Without Images",
-            "min_price": 89.3,
-            "max_price": 93.2,
+            "price": 89.3,
             "description": "A professional espresso coffee maker without images",
             "colors": [
                 {"name": "Black", "hex_value": "#000000"}
