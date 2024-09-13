@@ -16,8 +16,8 @@ class TestCartViews:
         self.access, _ = tokens(self.user)
         self.client = api_client(token=self.access)
 
-        self.url_get_items = '/cart/'
-        self.url_add_item = '/cart/add/'
+        self.url_get_items = '/api/cart/'
+        self.url_add_item = '/api/cart/add/'
 
         self.product1 = product_factory(title="product1", price=10.12, quantity=10)
         self.product2 = product_factory(title="product2", price=20.43, quantity=20)
@@ -34,8 +34,8 @@ class TestCartViews:
         assert any(item['product']['title'] == 'product2' for item in response.data)
 
     @pytest.mark.parametrize("endpoint, expected_status", [
-        ('/cart/add/', status.HTTP_401_UNAUTHORIZED),
-        ('/cart/add/', status.HTTP_401_UNAUTHORIZED),
+        ('/api/cart/add/', status.HTTP_401_UNAUTHORIZED),
+        ('/api/cart/add/', status.HTTP_401_UNAUTHORIZED),
     ])
     def test_unauthenticated_access(self, api_client, endpoint, expected_status):
         client = api_client()
@@ -65,3 +65,13 @@ class TestCartViews:
         })
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert 'error' in response.data
+
+    @pytest.mark.parametrize("endpoint, data, expected_status", [
+        ('/api/cart/add/', {'quantity': 3}, status.HTTP_400_BAD_REQUEST),
+        ('/api/cart/add/', {'product_id': "123"}, status.HTTP_400_BAD_REQUEST),
+        ('/api/cart/add/', {'product_id': 'invalid-id', 'quantity': 3}, status.HTTP_400_BAD_REQUEST),
+    ])
+    def test_add_item_view_missing_or_invalid_data(self, endpoint, data, expected_status):
+        client = self.client
+        response = client.post(endpoint, data)
+        assert response.status_code == expected_status
