@@ -14,6 +14,7 @@ urlpatterns = [
     path("password/forgot/", views.ForgotPasswordView.as_view()),
     path("password/forgot/verify/<str:otp_secret>/", views.ForgotPasswordVerifyView.as_view()),
     path("password/reset/", views.ResetPasswordView.as_view()),
+    path("logout/", views.LogoutView.as_view()),
     path("me/", views.UsersMeView.as_view()),
     path('', include(router.urls)),
 ]

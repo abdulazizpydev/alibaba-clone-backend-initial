@@ -4,9 +4,12 @@ from rest_framework.response import Response
 from django_redis import get_redis_connection
 from share.permissions import GeneratePermissions, check_perm
 from share.utils import send_email, generate_otp, check_otp
+from share.services import TokenService
+from share.enums import TokenType
 from django.contrib.auth.hashers import make_password
 from secrets import token_urlsafe
 
+from core import settings
 from .serializers import *
 from .models import User
 from .services import UserService
@@ -222,3 +225,21 @@ class ResetPasswordView(generics.UpdateAPIView):
         tokens = UserService.create_tokens(user)
         redis_conn.delete(token_hash)
         return Response(tokens)
+
+class LogoutView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        TokenService.add_token_to_redis(
+            request.user.id,
+            'fake_token',
+            TokenType.ACCESS,
+            settings.SIMPLE_JWT.get("ACCESS_TOKEN_LIFETIME"),
+        )
+        TokenService.add_token_to_redis(
+            request.user.id,
+            'fake_token',
+            TokenType.REFRESH,
+            settings.SIMPLE_JWT.get("REFRESH_TOKEN_LIFETIME"),
+        )
+        return Response({"detail": _("Successfully logged out")})
