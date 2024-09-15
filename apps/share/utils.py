@@ -54,7 +54,7 @@ def generate_otp(
 def check_otp(phone_number: str, otp_code: str, otp_secret: str) -> None:
     stored_hash: bytes = redis_conn.get(f"{phone_number}:otp")
     if not stored_hash or not check_password(f"{otp_secret}:{otp_code}", stored_hash.decode()):
-        raise Exception(400, "Invalid OTP code.")
+        raise ValidationError(_("Invalid OTP code."), 400)
 
 
 def response(
