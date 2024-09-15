@@ -43,14 +43,14 @@ def login_data(request, user_factory):
 
     def required_password():
         return (
-            422, {
+            400, {
                 'email_or_phone_number': user.email,
             },
         )
 
     def empty_password():
         return (
-            422, {
+            400, {
                 'email_or_phone_number': user.email,
                 'password': '',
             },
@@ -58,7 +58,7 @@ def login_data(request, user_factory):
 
     def invalid_password():
         return (
-            400, {
+            422, {
                 'email_or_phone_number': user.email,
                 'password': 'fake_password',
             },
