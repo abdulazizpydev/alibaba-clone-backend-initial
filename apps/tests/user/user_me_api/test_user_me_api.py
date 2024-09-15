@@ -1,6 +1,7 @@
 import pytest
 
 from user.models import User, Group
+from user.models import SellerUser, BuyerUser
 
 
 @pytest.fixture
@@ -9,6 +10,7 @@ def user_me_data(request, user_factory, tokens):
     Fixture that returns different sets of data based on the test case.
     """
     user = user_factory.create()
+    BuyerUser.objects.create(user=user)
     buyer_group = Group.objects.get(name="buyer")
     user.groups.add(buyer_group)
     user.save()
@@ -55,7 +57,7 @@ def test_user_me(user_me_data, api_client):
     user, access, data, status = user_me_data()
 
     client = api_client(token=access)
-    resp = client.patch('/api/users/me/', data, format='json')
+    resp = client.patch('/api/users/me/', data=data, format='json')
     assert resp.status_code == status
 
     if status == 200:
@@ -68,6 +70,7 @@ def test_user_me(user_me_data, api_client):
 @pytest.fixture
 def user_read_data(request, user_factory, tokens):
     user = user_factory()
+    BuyerUser.objects.create(user=user)
     buyer_group = Group.objects.get(name="buyer")
     user.groups.add(buyer_group)
     access, refresh = tokens(user)
@@ -77,6 +80,7 @@ def user_read_data(request, user_factory, tokens):
 
     def valid_seller_user():
         seller_user = user_factory()
+        SellerUser.objects.create(user=seller_user)
         seller_group = Group.objects.get(name="seller")
         seller_user.groups.add(seller_group)
         seller_user_access, _ = tokens(seller_user)

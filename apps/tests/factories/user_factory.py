@@ -24,9 +24,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     id = factory.Faker('pyint', min_value=1, max_value=100000)
     phone_number = factory.LazyFunction(fake_number)
     email = factory.LazyFunction(fake.email)
-    first_name = fake.first_name()
-    last_name = fake.last_name()
-    gender = fake.random_element(elements=('male', 'female'))
+    first_name = factory.LazyFunction(fake.first_name)
+    last_name = factory.LazyFunction(fake.last_name)
+    gender = factory.LazyFunction(lambda: fake.random_element(elements=('male', 'female')))
     is_staff = False
     is_active = True
     is_verified = True
