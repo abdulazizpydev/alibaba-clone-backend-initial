@@ -2,7 +2,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 from django_redis import get_redis_connection
-
+from share.permissions import GeneratePermissions, check_perm
 from share.utils import send_email, generate_otp, check_otp
 
 from .serializers import *
@@ -98,3 +98,32 @@ class LoginViewSet(viewsets.ModelViewSet):
 
         tokens = UserService.create_tokens(user)
         return Response(tokens)
+
+class UsersMeView(GeneratePermissions, generics.RetrieveAPIView, generics.UpdateAPIView):
+    http_method_names = ['get', 'patch']
+    # permission_classes = [check_perm('user.change_user_me')]
+
+    def get_object(self):
+        user = self.request.user
+
+        if user.groups.filter(name="buyer").exists():
+            try:
+                return user.buyer_profile
+            except BuyerUser.DoesNotExist:
+                raise serializers.ValidationError("Buyer profile does not exist for this user.")
+
+        if user.groups.filter(name="seller").exists():
+            try:
+                return user.seller_profile
+            except SellerUser.DoesNotExist:
+                raise serializers.ValidationError("Seller profile does not exist for this user.")
+
+        raise serializers.ValidationError("User does not belong to either Buyer or Seller group.")
+
+    def get_serializer_class(self):
+        if self.request.user.groups.filter(name="seller").exists():
+            return SellerUserSerializer
+        elif self.request.user.groups.filter(name="buyer").exists():
+            return BuyerUserSerializer
+
+        return BuyerUserSerializer
