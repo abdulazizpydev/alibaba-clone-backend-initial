@@ -10,4 +10,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("health/", index),
     path("api/users/", include("user.urls", namespace="user")),
+    path("api/products/", include("product.urls", namespace="product")),
+    path("api/cart/", include("cart.urls", namespace="cart")),
 ]
