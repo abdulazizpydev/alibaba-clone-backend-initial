@@ -2,8 +2,6 @@ import pytest
 from django.contrib.auth.hashers import check_password
 from user.models import User, Group
 
-from rest_framework.exceptions import ValidationError
-
 
 @pytest.fixture()
 def forgot_password_data(request, user_factory, mocker):
@@ -146,7 +144,7 @@ def forgot_password_verify_data(request, mocker, user_factory):
         return_data.update({
             'status_code': 400,
             'redis_conn': redis_conn,
-            'exists_otp': ValidationError("Invalid OTP code.", 400),  # this
+            'exists_otp': Exception(400, "Invalid OTP code."),
             'otp_secret': 'asfasdI&UJHGasJHKLHJkjhasklfh9839klajhk'
         })
         return return_data
