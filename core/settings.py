@@ -174,7 +174,7 @@ CACHES = {
 
 REST_FRAMEWORK = {
     # 'EXCEPTION_HANDLER': 'share.handlers.custom_exception_handler',
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         'user.authentications.CustomJWTAuthentication',
