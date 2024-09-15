@@ -129,3 +129,17 @@ class UsersMeView(GeneratePermissions, generics.RetrieveAPIView, generics.Update
             return BuyerUserSerializer
 
         raise serializers.ValidationError("User does not belong to either Buyer or Seller group.")
+
+
+class ChangePasswordView(generics.UpdateAPIView):
+    serializer_class = ChangePasswordSerializer
+    permission_classes = [check_perm('user.change_user_me')]
+    http_method_names = ['put']
+
+    def put(self, request, *args, **kwargs):
+        user = self.request.user
+        serializer = self.get_serializer(user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        tokens = UserService.create_tokens(user)
+        return Response(tokens)

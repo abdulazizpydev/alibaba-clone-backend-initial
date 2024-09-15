@@ -92,13 +92,92 @@ class VerifyCodeSerializer(serializers.Serializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    email_or_phone_number = serializers.CharField(write_only=True, required=True)
-    password = serializers.CharField(write_only=True, required=True)
+    email_or_phone_number = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True)
 
 
 class LogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField(write_only=True)
-    
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'first_name',
+            'last_name',
+            'phone_number',
+            'email',
+            'gender',
+
+        ]
+        read_only_fields = ['id']
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
+
+    def validate(self, data):
+        user = self.context["request"].user
+        new_password = data.get("new_password")
+        confirm_password = data.pop("confirm_password")
+        validator = CustomPasswordValidator(
+            min_length=5, require_digit=True, require_special_character=False
+        )
+        validator.validate(new_password, confirm_password)
+        old_password = data.get("old_password")
+        if not check_password(old_password, user.password):
+            raise ValidationError(_("Old password is incorrect."), 400)
+        return data
+
+    def update(self, instance, validated_data):
+        new_password = validated_data["new_password"]
+        instance.set_password(new_password)
+        instance.save()
+        return instance
+
+
+class OTPResponseSerializer(serializers.Serializer):
+    email = PhoneNumberField()
+    otp_secret = serializers.CharField()
+
+
+class ForgotPasswordSerializer(serializers.Serializer):
+    email = serializers.CharField(write_only=True)
+
+
+class ResetPasswordSerializer(serializers.ModelSerializer):
+    token = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ["id", "token", "password", "confirm_password"]
+
+    def validate(self, data):
+        password = data.get("password")
+        confirm_password = data.get("confirm_password")
+        validator = CustomPasswordValidator(
+            min_length=5, require_digit=True, require_special_character=False
+        )
+        validator.validate(password, confirm_password)
+        return data
+
+
+class ForgotPasswordVerifySerializer(serializers.Serializer):
+    email = serializers.CharField(write_only=True)
+    otp_code = OtpCodeField(write_only=True)
+    token = serializers.CharField(read_only=True)
+
+
+class GroupShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ["id", "name"]
 
 
 class BaseUserProfileSerializer(serializers.ModelSerializer):
