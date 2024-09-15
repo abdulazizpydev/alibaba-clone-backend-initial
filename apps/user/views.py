@@ -103,6 +103,9 @@ class UsersMeView(GeneratePermissions, generics.RetrieveAPIView, generics.Update
     http_method_names = ['get', 'patch']
     # permission_classes = [check_perm('user.change_user_me')]
 
+    def get_queryset(self):
+        return None
+
     def get_object(self):
         user = self.request.user
 
