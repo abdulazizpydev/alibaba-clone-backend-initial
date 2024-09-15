@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from django_redis import get_redis_connection
 from share.permissions import GeneratePermissions, check_perm
 from share.utils import send_email, generate_otp, check_otp
+from django.contrib.auth.hashers import make_password
+from secrets import token_urlsafe
 
 from .serializers import *
 from .models import User
@@ -142,4 +144,81 @@ class ChangePasswordView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         tokens = UserService.create_tokens(user)
+        return Response(tokens)
+    
+
+
+class ForgotPasswordView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = ForgotPasswordSerializer
+    authentication_classes = []
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data['email']
+        if not User.objects.filter(email=email, is_verified=True).first():
+            raise ValidationError(_("No verified user found with this email!"), code=404)
+
+        if redis_conn.exists(f"{email}:otp_secret"):
+            otp_secret = redis_conn.get(f"{email}:otp_secret").decode()
+            return Response({
+                "email": email,
+                "otp_secret": otp_secret,
+            })
+        otp_code, otp_secret = generate_otp(phone_number_or_email=email, expire_in=2 * 60)
+        res_code = send_email(email, otp_code)
+        if res_code == 200:
+            return Response({
+                "email": email,
+                # "otp_code": otp_code,  # it's temporary for testing
+                "otp_secret": otp_secret,
+            })
+        else:
+            redis_conn.delete(f"{email}:otp")
+            return Response({"detail": _("Something is wrong with sending SMS")}, status=res_code)
+
+
+class ForgotPasswordVerifyView(generics.CreateAPIView):
+    authentication_classes = []
+    serializer_class = ForgotPasswordVerifySerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        otp_code = serializer.validated_data['otp_code']
+        email = serializer.validated_data['email']
+        qs = User.objects.filter(email=email, is_verified=True)
+        if not qs.exists():
+            raise ValidationError(_("No verified user found with this email!"), code=404)
+        otp_secret = kwargs.get('otp_secret')
+        check_otp(email, otp_code, otp_secret)
+        redis_conn.delete(f"{email}:otp")
+        token_hash = make_password(token_urlsafe())
+        redis_conn.set(token_hash, email, ex=2 * 60 * 60)
+        return Response({"token": token_hash})
+
+
+class ResetPasswordView(generics.UpdateAPIView):
+    serializer_class = ResetPasswordSerializer
+    permission_classes = [permissions.AllowAny]
+    http_method_names = ['patch']
+    authentication_classes = []
+
+    def patch(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        token_hash = serializer.validated_data['token']
+        email: bytes = redis_conn.get(token_hash)
+        if not email:
+            raise ValidationError(_("Invalid token"))
+        email = email.decode()
+        qs = User.objects.filter(email=email, is_verified=True)
+        if not qs.exists():
+            raise ValidationError(_("No verified user found with this email!"), code=404)
+
+        password = serializer.validated_data['password']
+        user = User.objects.reset_password_email(email, password)
+        tokens = UserService.create_tokens(user)
+        redis_conn.delete(token_hash)
         return Response(tokens)
