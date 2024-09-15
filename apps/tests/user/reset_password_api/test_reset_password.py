@@ -156,14 +156,6 @@ def forgot_password_verify_data(request, mocker, user_factory):
         return_data['req_json'].pop('otp_code')
         return return_data
 
-    def user_not_found():
-        return_data.update({
-            'status_code': 400,
-            'otp_secret': 'asfasdI&UJHGasJHKLHJkjhasklfh9839klajhk'
-        })
-        return_data['req_json']['email'] = 'testemail@gmail.com'
-        return return_data
-
     def required_email():
         return_data.update({'status_code': 400})
         return_data['req_json'].pop('email')
@@ -185,7 +177,6 @@ def forgot_password_verify_data(request, mocker, user_factory):
         'valid_data': valid_data,
         'invalid_otp': invalid_otp,
         'required_otp_code': required_otp_code,
-        'user_not_found': user_not_found,
         'required_email': required_email,
         'invalid_email': invalid_email,
         'empty_otp_secret': empty_otp_secret
@@ -200,7 +191,6 @@ def forgot_password_verify_data(request, mocker, user_factory):
         'valid_data',
         'invalid_otp',
         'required_otp_code',
-        'user_not_found',
         'required_email',
         'invalid_email',
         'empty_otp_secret'
