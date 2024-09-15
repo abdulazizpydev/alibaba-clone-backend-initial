@@ -104,8 +104,7 @@ class UsersMeView(GeneratePermissions, generics.RetrieveAPIView, generics.Update
     # permission_classes = [check_perm('user.change_user_me')]
 
     def get_queryset(self):
-        user = User.objects.get(id=self.request.user.id)
-        return user
+        return User.objects.all()
 
     def get_object(self):
         user = self.request.user
