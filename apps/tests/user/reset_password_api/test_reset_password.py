@@ -158,7 +158,7 @@ def forgot_password_verify_data(request, mocker, user_factory):
 
     def user_not_found():
         return_data.update({
-            'status_code': 400,  # this 404
+            'status_code': 404,
             'otp_secret': 'asfasdI&UJHGasJHKLHJkjhasklfh9839klajhk'
         })
         return_data['req_json']['email'] = 'testemail@gmail.com'
