@@ -25,12 +25,12 @@ def user_me_data(request, user_factory, tokens):
         }, 200
 
     def empty_first_name():
-        return user, access, {"first_name": ""}, 422
+        return user, access, {"first_name": ""}, 400
 
     def invalid_string_type():
         return user, access, {
             "first_name": {"foo": "bar"},
-        }, 422
+        }, 400
 
     data = {
         'valid_user': valid_user,
