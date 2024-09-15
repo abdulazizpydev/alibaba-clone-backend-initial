@@ -101,7 +101,7 @@ class LoginViewSet(viewsets.ModelViewSet):
 
 class UsersMeView(GeneratePermissions, generics.RetrieveAPIView, generics.UpdateAPIView):
     http_method_names = ['get', 'patch']
-    # permission_classes = [check_perm('user.change_user_me')]
+    permission_classes = [check_perm('user.change_user_me')]
 
     def get_queryset(self):
         return User.objects.all()
