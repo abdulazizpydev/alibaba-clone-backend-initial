@@ -83,3 +83,18 @@ class VerifyView(generics.UpdateAPIView):
         tokens = UserService.create_tokens(user)
         return Response(tokens, status=status.HTTP_200_OK)
 
+
+class LoginViewSet(viewsets.ModelViewSet):
+    serializer_class = LoginSerializer
+    http_method_names = ['post']
+    authentication_classes = []
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = UserService.authenticate(**serializer.validated_data)
+        if isinstance(user, ValidationError):
+            raise user
+
+        tokens = UserService.create_tokens(user)
+        return Response(tokens)

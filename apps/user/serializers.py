@@ -89,3 +89,13 @@ class SignUpRequestSerializer(serializers.ModelSerializer):
 class VerifyCodeSerializer(serializers.Serializer):
     otp_code = OtpCodeField()
     phone_number = PhoneNumberField()
+
+
+class LoginSerializer(serializers.Serializer):
+    email_or_phone_number = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True)
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField(write_only=True)
+    
