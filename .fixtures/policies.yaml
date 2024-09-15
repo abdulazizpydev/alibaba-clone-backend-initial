@@ -1,4 +1,36 @@
 admin_policy:
+  - cart.add_cart
+  - cart.change_cart
+  - cart.delete_cart
+  - cart.view_cart
+  - cart.add_cartitem
+  - cart.change_cartitem
+  - cart.delete_cartitem
+  - cart.view_cartitem
+  - product.add_category
+  - product.change_category
+  - product.delete_category
+  - product.view_category
+  - product.add_color
+  - product.change_color
+  - product.delete_color
+  - product.view_color
+  - product.add_image
+  - product.change_image
+  - product.delete_image
+  - product.view_image
+  - product.add_product
+  - product.change_product
+  - product.delete_product
+  - product.view_product
+  - product.add_productviews
+  - product.change_productviews
+  - product.delete_productviews
+  - product.view_productviews
+  - product.add_size
+  - product.change_size
+  - product.delete_size
+  - product.view_size
   - share.add_baseuserinfo
   - share.change_baseuserinfo
   - share.delete_baseuserinfo
@@ -29,6 +61,35 @@ admin_policy:
 
 
 seller_policy:
+  - cart.add_cart
+  - cart.change_cart
+  - cart.delete_cart
+  - cart.view_cart
+  - cart.add_cartitem
+  - cart.change_cartitem
+  - cart.delete_cartitem
+  - cart.view_cartitem
+  - product.view_category
+  - product.add_color
+  - product.change_color
+  - product.delete_color
+  - product.view_color
+  - product.add_image
+  - product.change_image
+  - product.delete_image
+  - product.view_image
+  - product.add_product
+  - product.change_product
+  - product.delete_product
+  - product.view_product
+  - product.add_productviews
+  - product.change_productviews
+  - product.delete_productviews
+  - product.view_productviews
+  - product.add_size
+  - product.change_size
+  - product.delete_size
+  - product.view_size
   - user.view_buyeruser
   - user.view_policy
   - user.view_selleruser
@@ -38,6 +99,20 @@ seller_policy:
   - user.view_user_me
 
 buyer_policy:
+  - cart.add_cart
+  - cart.change_cart
+  - cart.delete_cart
+  - cart.view_cart
+  - cart.add_cartitem
+  - cart.change_cartitem
+  - cart.delete_cartitem
+  - cart.view_cartitem
+  - product.view_category
+  - product.view_color
+  - product.view_image
+  - product.view_product
+  - product.view_productviews
+  - product.view_size
   - user.view_buyeruser
   - user.view_policy
   - user.view_selleruser
