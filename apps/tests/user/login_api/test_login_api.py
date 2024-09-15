@@ -26,16 +26,16 @@ def login_data(request, user_factory):
             },
         )
 
-    def required_username():
+    def required_email_or_phone_number():
         return (
-            422, {
+            400, {
                 'password': password,
             },
         )
 
-    def empty_username():
+    def empty_email_or_phone_number():
         return (
-            422, {
+            400, {
                 'email_or_phone_number': '',
                 'password': password,
             },
@@ -43,14 +43,14 @@ def login_data(request, user_factory):
 
     def required_password():
         return (
-            422, {
+            400, {
                 'email_or_phone_number': user.email,
             },
         )
 
     def empty_password():
         return (
-            422, {
+            400, {
                 'email_or_phone_number': user.email,
                 'password': '',
             },
@@ -67,8 +67,8 @@ def login_data(request, user_factory):
     data = {
         'valid_email': valid_email,
         'valid_phone_number': valid_phone_number,
-        'required_username': required_username,
-        'empty_username': empty_username,
+        'required_email_or_phone_number': required_email_or_phone_number,
+        'empty_email_or_phone_number': empty_email_or_phone_number,
         'required_password': required_password,
         'empty_password': empty_password,
         'invalid_password': invalid_password,
@@ -82,8 +82,8 @@ def login_data(request, user_factory):
     [
         'valid_email',
         'valid_phone_number',
-        'required_username',
-        'empty_username',
+        'required_email_or_phone_number',
+        'empty_email_or_phone_number',
         'required_password',
         'empty_password',
         'invalid_password',

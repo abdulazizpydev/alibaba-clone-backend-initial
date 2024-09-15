@@ -11,6 +11,7 @@ def user_me_data(request, user_factory, tokens):
     user = user_factory.create()
     buyer_group = Group.objects.get(name="buyer")
     user.groups.add(buyer_group)
+    user.save()
     access, _ = tokens(user)
 
     def valid_user():
@@ -25,12 +26,12 @@ def user_me_data(request, user_factory, tokens):
         }, 200
 
     def empty_first_name():
-        return user, access, {"first_name": ""}, 422
+        return user, access, {"first_name": ""}, 400
 
     def invalid_string_type():
         return user, access, {
             "first_name": {"foo": "bar"},
-        }, 422
+        }, 400
 
     data = {
         'valid_user': valid_user,

@@ -263,7 +263,7 @@ def reset_password_data(request, mocker, user_factory):
         return return_data
 
     def required_token():
-        return_data.update({'status_code': 422})
+        return_data.update({'status_code': 400})
         return_data['req_json'].pop('token')
         return return_data
 
@@ -297,12 +297,12 @@ def reset_password_data(request, mocker, user_factory):
         return return_data
 
     def required_password():
-        return_data.update({'status_code': 422})
+        return_data.update({'status_code': 400})
         return_data['req_json'].pop('password')
         return return_data
 
     def empty_password():
-        return_data.update({'status_code': 422})
+        return_data.update({'status_code': 400})
         return_data['req_json'].update({'password': ''})
         return return_data
 
@@ -312,17 +312,17 @@ def reset_password_data(request, mocker, user_factory):
         return return_data
 
     def required_confirm_password():
-        return_data.update({'status_code': 422})
+        return_data.update({'status_code': 400})
         return_data['req_json'].pop('confirm_password')
         return return_data
 
     def empty_confirm_password():
-        return_data.update({'status_code': 422})
+        return_data.update({'status_code': 400})
         return_data['req_json'].update({'confirm_password': ''})
         return return_data
 
     def empty_request():
-        return_data.update({'status_code': 422})
+        return_data.update({'status_code': 400})
         return_data['req_json'] = dict()
         return return_data
 

@@ -34,7 +34,7 @@ def change_password_data(request, user_factory):
 
     def invalid_old_password():
         return (
-            422, user,
+            400, user,
             {
                 'old_password': {},
                 'new_password': new_password,
@@ -44,7 +44,7 @@ def change_password_data(request, user_factory):
 
     def empty_old_password():
         return (
-            422, user,
+            400, user,
             {
                 'old_password': '',
                 'new_password': new_password,
@@ -54,7 +54,7 @@ def change_password_data(request, user_factory):
 
     def required_old_password():
         return (
-            422, user,
+            400, user,
             {
                 'new_password': new_password,
                 'confirm_password': new_password,
@@ -93,7 +93,7 @@ def change_password_data(request, user_factory):
 
     def invalid_new_password():
         return (
-            422, user,
+            400, user,
             {
                 'old_password': old_password,
                 'new_password': {},
@@ -103,7 +103,7 @@ def change_password_data(request, user_factory):
 
     def empty_new_password():
         return (
-            422, user,
+            400, user,
             {
                 'old_password': old_password,
                 'new_password': '',
@@ -113,7 +113,7 @@ def change_password_data(request, user_factory):
 
     def required_new_password():
         return (
-            422, user,
+            400, user,
             {
                 'old_password': old_password,
                 'confirm_password': new_password,
@@ -132,7 +132,7 @@ def change_password_data(request, user_factory):
 
     def invalid_confirm_password():
         return (
-            422, user,
+            400, user,
             {
                 'old_password': old_password,
                 'new_password': new_password,
@@ -142,7 +142,7 @@ def change_password_data(request, user_factory):
 
     def empty_confirm_password():
         return (
-            422, user,
+            400, user,
             {
                 'old_password': old_password,
                 'new_password': new_password,
@@ -152,7 +152,7 @@ def change_password_data(request, user_factory):
 
     def required_confirm_password():
         return (
-            422, user,
+            400, user,
             {
                 'old_password': old_password,
                 'new_password': new_password,
