@@ -99,7 +99,7 @@ class LoginViewSet(viewsets.ModelViewSet):
         tokens = UserService.create_tokens(user)
         return Response(tokens)
 
-class UsersMeView(generics.RetrieveAPIView, generics.UpdateAPIView):
+class UsersMeView(GeneratePermissions, generics.RetrieveAPIView, generics.UpdateAPIView):
     http_method_names = ['get', 'patch']
     # permission_classes = [check_perm('user.change_user_me')]
 
@@ -129,4 +129,4 @@ class UsersMeView(generics.RetrieveAPIView, generics.UpdateAPIView):
         elif self.request.user.groups.filter(name="buyer").exists():
             return BuyerUserSerializer
 
-        raise serializers.ValidationError("User does not belong to either Buyer or Seller group.")
+        return BuyerUserSerializer

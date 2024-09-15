@@ -11,7 +11,6 @@ def user_me_data(request, user_factory, tokens):
     user = user_factory.create()
     buyer_group = Group.objects.get(name="buyer")
     user.groups.add(buyer_group)
-    user.save()
     access, _ = tokens(user)
 
     def valid_user():
