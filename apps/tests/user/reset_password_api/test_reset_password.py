@@ -266,15 +266,6 @@ def reset_password_data(request, mocker, user_factory):
         })
         return return_data
 
-    def user_not_found():
-        redis_conn = mocker.Mock()
-        redis_conn.get.return_value = b'pbkdf2_sha256$600000$MscHEhmzi4L0E='
-        return_data.update({
-            'status_code': 404,
-            'redis_conn': redis_conn,
-        })
-        return return_data
-
     def invalid_password():
         return_data.update({
             'status_code': 400,
@@ -320,7 +311,6 @@ def reset_password_data(request, mocker, user_factory):
         'valid_data': valid_data,
         'required_token': required_token,
         'invalid_token': invalid_token,
-        'user_not_found': user_not_found,
         'invalid_password': invalid_password,
         'password_mismatch': password_mismatch,
         'required_password': required_password,
@@ -339,7 +329,6 @@ def reset_password_data(request, mocker, user_factory):
         'valid_data',
         'required_token',
         'invalid_token',
-        'user_not_found',
         'invalid_password',
         'password_mismatch',
         'required_password',
