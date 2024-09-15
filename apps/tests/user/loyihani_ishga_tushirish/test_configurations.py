@@ -1,6 +1,6 @@
 import importlib.util
 import pytest
-from django.conf import settings
+from core import settings
 
 
 @pytest.mark.order(1)

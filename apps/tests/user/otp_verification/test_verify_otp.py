@@ -30,28 +30,28 @@ def verify_otp_data(request, fake_number, user_factory):
     def invalid_after_expiration_time():
         user_factory.create(phone_number=phone_number, is_verified=False)
         return_data.update({
-            'status_code': 422,
+            'status_code': 400,
             'check_otp_exception': ValidationError("Invalid OTP code.", 400)
         })
         return return_data
 
     def invalid_phone_number():
         return_data.update({
-            'status_code': 422
+            'status_code': 400
         })
         return_data['req_json'].update({'phone_number': 'invalid_phone_number'})
         return return_data
 
     def empty_phone_number():
         return_data.update({
-            'status_code': 422
+            'status_code': 400
         })
         return_data['req_json'].update({'phone_number': ''})
         return return_data
 
     def required_phone_number():
         return_data.update({
-            'status_code': 422
+            'status_code': 400
         })
         return_data['req_json'].pop('phone_number')
         return return_data
@@ -59,7 +59,7 @@ def verify_otp_data(request, fake_number, user_factory):
     def incorrect_otp_code():
         user_factory.create(phone_number=phone_number, is_verified=False)
         return_data.update({
-            'status_code': 422,
+            'status_code': 400,
             'check_otp_exception': ValidationError("Invalid OTP code.", 400)
         })
         return_data['req_json'].update({'otp_code': '123456'})
@@ -67,21 +67,21 @@ def verify_otp_data(request, fake_number, user_factory):
 
     def invalid_otp_code():
         return_data.update({
-            'status_code': 422
+            'status_code': 400
         })
         return_data['req_json'].update({'otp_code': 'invalid_code'})
         return return_data
 
     def empty_otp_code():
         return_data.update({
-            'status_code': 422
+            'status_code': 400
         })
         return_data['req_json'].update({'otp_code': ''})
         return return_data
 
     def required_otp_code():
         return_data.update({
-            'status_code': 422
+            'status_code': 400
         })
         return_data['req_json'].pop('otp_code')
         return return_data
@@ -148,7 +148,7 @@ def test_verify_otp(
     mocker.patch('user.views.check_otp', side_effect=return_data["check_otp_exception"])
 
     resp = client.patch(
-        f'/users/register/verify/{return_data["otp_secret"]}/',
+        f'/api/users/register/verify/{return_data["otp_secret"]}/',
         data=return_data["req_json"],
         format='json'
     )
