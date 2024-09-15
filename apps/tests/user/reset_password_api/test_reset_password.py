@@ -146,7 +146,7 @@ def forgot_password_verify_data(request, mocker, user_factory):
         return_data.update({
             'status_code': 400,
             'redis_conn': redis_conn,
-            'exists_otp': ValidationError("Invalid OTP code.", 400),  # this
+            'exists_otp': ValidationError("Invalid OTP code.", 400),
             'otp_secret': 'asfasdI&UJHGasJHKLHJkjhasklfh9839klajhk'
         })
         return return_data
@@ -154,14 +154,6 @@ def forgot_password_verify_data(request, mocker, user_factory):
     def required_otp_code():
         return_data.update({'status_code': 400})
         return_data['req_json'].pop('otp_code')
-        return return_data
-
-    def user_not_found():
-        return_data.update({
-            'status_code': 400,  # this 404
-            'otp_secret': 'asfasdI&UJHGasJHKLHJkjhasklfh9839klajhk'
-        })
-        return_data['req_json']['email'] = 'testemail@gmail.com'
         return return_data
 
     def required_email():
@@ -185,7 +177,6 @@ def forgot_password_verify_data(request, mocker, user_factory):
         'valid_data': valid_data,
         'invalid_otp': invalid_otp,
         'required_otp_code': required_otp_code,
-        'user_not_found': user_not_found,
         'required_email': required_email,
         'invalid_email': invalid_email,
         'empty_otp_secret': empty_otp_secret
@@ -200,7 +191,6 @@ def forgot_password_verify_data(request, mocker, user_factory):
         'valid_data',
         'invalid_otp',
         'required_otp_code',
-        'user_not_found',
         'required_email',
         'invalid_email',
         'empty_otp_secret'
@@ -276,15 +266,6 @@ def reset_password_data(request, mocker, user_factory):
         })
         return return_data
 
-    def user_not_found():
-        redis_conn = mocker.Mock()
-        redis_conn.get.return_value = b'pbkdf2_sha256$600000$MscHEhmzi4L0E='
-        return_data.update({
-            'status_code': 404,
-            'redis_conn': redis_conn,
-        })
-        return return_data
-
     def invalid_password():
         return_data.update({
             'status_code': 400,
@@ -330,7 +311,6 @@ def reset_password_data(request, mocker, user_factory):
         'valid_data': valid_data,
         'required_token': required_token,
         'invalid_token': invalid_token,
-        'user_not_found': user_not_found,
         'invalid_password': invalid_password,
         'password_mismatch': password_mismatch,
         'required_password': required_password,
@@ -349,7 +329,6 @@ def reset_password_data(request, mocker, user_factory):
         'valid_data',
         'required_token',
         'invalid_token',
-        'user_not_found',
         'invalid_password',
         'password_mismatch',
         'required_password',
