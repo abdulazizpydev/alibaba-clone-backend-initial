@@ -1,4 +1,8 @@
 admin_policy:
+  - order.add_order
+  - order.change_order
+  - order.delete_order
+  - order.view_order
   - cart.add_cart
   - cart.change_cart
   - cart.delete_cart
@@ -61,6 +65,10 @@ admin_policy:
 
 
 seller_policy:
+  - order.add_order
+  - order.change_order
+  - order.delete_order
+  - order.view_order
   - cart.add_cart
   - cart.change_cart
   - cart.delete_cart
@@ -99,6 +107,10 @@ seller_policy:
   - user.view_user_me
 
 buyer_policy:
+  - order.add_order
+  - order.change_order
+  - order.delete_order
+  - order.view_order
   - cart.add_cart
   - cart.change_cart
   - cart.delete_cart
