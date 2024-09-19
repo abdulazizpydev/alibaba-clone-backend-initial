@@ -12,4 +12,5 @@ urlpatterns = [
     path("api/users/", include("user.urls", namespace="user")),
     path("api/products/", include("product.urls", namespace="product")),
     path("api/cart/", include("cart.urls", namespace="cart")),
+    path("api/orders/", include("order.urls", namespace="order")),
 ]
