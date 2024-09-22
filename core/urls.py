@@ -13,4 +13,5 @@ urlpatterns = [
     path("api/products/", include("product.urls", namespace="product")),
     path("api/cart/", include("cart.urls", namespace="cart")),
     path("api/orders/", include("order.urls", namespace="order")),
+    path("api/payment/", include("payment.urls", namespace="payment")),
 ]
