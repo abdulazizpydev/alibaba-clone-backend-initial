@@ -46,3 +46,10 @@ class PaymentProvider(BaseEnum):
     PAYME = 'payme'
     CARD = 'card'
     PAYPAL = 'paypal'
+
+
+class NotificationType(BaseEnum):
+    ORDER = "order"
+    PAYMENT = "payment"
+    GENERAL = "general"
+
