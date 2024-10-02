@@ -40,9 +40,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: ecommerce_db
-      POSTGRES_USER: ecommerce_user
-      POSTGRES_PASSWORD: ecommerce_password
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     networks:
       - ecommerce_network
 
