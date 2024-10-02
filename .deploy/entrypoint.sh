@@ -36,9 +36,9 @@ echo "Compiling translation messages"
 django-admin compilemessages
 echo "Successfully compiled messages"
 
-python manage.py initial_data
+# python manage.py initial_data
 
-python manage.py my_createsuperuser --noinput --email $DJANGO_SUPERUSER_EMAIL --password $DJANGO_SUPERUSER_PASSWORD
+# python manage.py my_createsuperuser --noinput --email $DJANGO_SUPERUSER_EMAIL --password $DJANGO_SUPERUSER_PASSWORD
 
 # Starting server
 echo "Starting server"
