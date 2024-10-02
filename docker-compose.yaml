@@ -9,7 +9,7 @@ services:
     image: ecommerce_app:latest
     build: .
     env_file:
-      - .env
+      - .env.example
     ports:
       - "8000:8000"
     depends_on:
@@ -22,7 +22,7 @@ services:
     container_name: ecommerce_redis_host
     image: "redis:7-alpine"
     env_file:
-      - .env
+      - .env.example
     expose:
       - "6379"
     restart: always
@@ -34,7 +34,7 @@ services:
     image: postgres:15-alpine
     restart: always
     env_file:
-      - .env
+      - .env.example
     expose:
       - "5432"
     volumes:
@@ -55,7 +55,7 @@ services:
       - ecommerce_app
       - ecommerce_redis_host
     env_file:
-      - .env
+      - .env.example
     networks:
       - ecommerce_network
 
