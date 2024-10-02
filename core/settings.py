@@ -16,7 +16,7 @@ sys.path.append(os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = config('SECRET_KEY', default='hjg^&%**%%^*GHVGJHGKJGKH')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
