@@ -41,7 +41,6 @@ platformdirs==4.2.2
 pluggy==1.5.0
 pre-commit==3.6.0
 prompt_toolkit==3.0.47
-psycopg2
 psycopg2-binary==2.9.9
 pycparser==2.22
 PyJWT==2.9.0
