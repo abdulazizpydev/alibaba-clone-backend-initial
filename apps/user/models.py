@@ -102,13 +102,13 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         Returns:
             str: The string representation of the user.
         """
-        return self.full_name or self.username
+        return self.email
 
     def __repr__(self):
         return "User object [id={id} username={username} full_name={full_name}]".format(
             id=self.id,
             full_name=self.full_name,
-            username=self.phone_number or self.email,
+            username=self.email,
         )
 
     @property
