@@ -33,16 +33,14 @@ services:
     container_name: ecommerce_db
     image: postgres:15-alpine
     restart: always
-    env_file:
-      - .env.example
     expose:
       - "5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=ecommerce_db
+      - POSTGRES_USER=ecommerce_user
+      - POSTGRES_PASSWORD=ecommerce_password
     networks:
       - ecommerce_network
 
