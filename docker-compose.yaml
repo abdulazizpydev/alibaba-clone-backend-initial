@@ -16,7 +16,7 @@ services:
       - ecommerce_db
       - ecommerce_redis_host
     networks:
-      ecommerce_network:
+      - ecommerce_network
 
   ecommerce_redis_host:
     container_name: ecommerce_redis_host
@@ -38,9 +38,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=ecommerce_database
-      - POSTGRES_USER=ecommerce_user
-      - POSTGRES_PASSWORD=ecommerce_password
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     networks:
       - ecommerce_network
 
