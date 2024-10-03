@@ -1,27 +1,22 @@
-import logging
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import Permission
 
-logger = logging.getLogger(__name__)
 
 class CustomModelBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         if not username:
             return None
-        
         try:
-            username_field = "email" if "@" in username else "phone_number"
+            if "@" in username:
+                username_field = "email"
+            else:
+                username_field = "phone_number"
             user = get_user_model().objects.get(**{username_field: username})
         except get_user_model().DoesNotExist:
-            logger.warning("Authentication failed: User not found for %s", username)
             return None
-        
         if user.check_password(password) and self.user_can_authenticate(user):
-            logger.info("User %s authenticated successfully.", username)
             return user
-        logger.warning("Authentication failed: Incorrect password for %s", username)
-        return None
 
     def user_can_authenticate(self, user):
         return user.is_active and user.is_verified
@@ -30,7 +25,6 @@ class CustomModelBackend(ModelBackend):
         try:
             return get_user_model().objects.get(pk=user_id)
         except get_user_model().DoesNotExist:
-            logger.warning("User with ID %s does not exist.", user_id)
             return None
 
     def _get_user_permissions(self, user_obj):

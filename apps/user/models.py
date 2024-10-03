@@ -71,8 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = "id"
 
     class Meta:
         db_table = "user"
