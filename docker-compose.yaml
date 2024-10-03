@@ -30,22 +30,13 @@ services:
       - ecommerce_network
 
   ecommerce_db:
-    container_name: ecommerce_db
-    image: postgres:15-alpine
-    restart: always
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ecommerce_user"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    image: postgres:15
     environment:
-      - POSTGRES_USER=ecommerce_user
-      - POSTGRES_PASSWORD=ecommerce_password
-      - POSTGRES_DB=ecommerce_database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ecommerce_password
+      POSTGRES_DB: ecommerce_database
+    volumes:
+      - ecommerce_db_data:/var/lib/postgresql/data
     networks:
       - ecommerce_network
 
@@ -66,5 +57,5 @@ networks:
   ecommerce_network:
 
 volumes:
-  postgres_data:
+  ecommerce_db_data:
   static_volume:
