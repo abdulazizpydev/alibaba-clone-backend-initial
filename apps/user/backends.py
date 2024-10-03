@@ -12,11 +12,18 @@ class CustomModelBackend(ModelBackend):
                 username_field = "email"
             else:
                 username_field = "phone_number"
-            user = get_user_model().objects.get(**{username_field: username})
+            users = get_user_model().objects.filter(**{username_field: username})
+
+            if users.exists():
+                user = users.first()
+            else:
+                return None
         except get_user_model().DoesNotExist:
             return None
+
         if user.check_password(password) and self.user_can_authenticate(user):
             return user
+
 
     def user_can_authenticate(self, user):
         return user.is_active and user.is_verified
