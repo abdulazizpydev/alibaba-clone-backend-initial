@@ -56,6 +56,45 @@ AUTHENTICATION_BACKENDS = [
     'user.backends.CustomModelBackend',
 ]
 
+WEBSITE_URL = config('WEBSITE_URL')
+FRONT_URL = config('FRONT_URL')
+
+SITE_ID = 1
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    f"https://{FRONT_URL}",
+    f"http://{FRONT_URL}"
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://{WEBSITE_URL}',
+    'http://{WEBSITE_URL}'   
+]
+
+SESSION_COOKIE_DOMAIN = WEBSITE_URL
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+
 ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
