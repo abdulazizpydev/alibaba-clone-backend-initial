@@ -37,10 +37,10 @@ services:
       - "5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=ecommerce_database
-      - POSTGRES_USER=ecommerce_user
-      - POSTGRES_PASSWORD=ecommerce_password
+    # environment:
+    #   - POSTGRES_DB=ecommerce_database
+    #   - POSTGRES_USER=ecommerce_user
+    #   - POSTGRES_PASSWORD=ecommerce_password
     networks:
       - ecommerce_network
 
