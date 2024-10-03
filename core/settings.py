@@ -75,12 +75,12 @@ CORS_ALLOW_HEADERS = [
 
 CORS_ALLOWED_ORIGINS = [
     f"https://{FRONT_URL}",
-    f"http://{FRONT_URL}"
+    f"http://{FRONT_URL}",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://{WEBSITE_URL}',
-    'http://{WEBSITE_URL}'   
+    f'https://{WEBSITE_URL}',
+    f'http://{WEBSITE_URL}'
 ]
 
 SESSION_COOKIE_DOMAIN = WEBSITE_URL
