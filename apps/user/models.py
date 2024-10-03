@@ -48,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=13, blank=True, null=True)
-    email = models.EmailField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True, unique=True)
     is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
@@ -81,8 +81,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
             models.CheckConstraint(
                 check=~Q(email=None, phone_number=None),
                 name="check_email_or_phone_number",
-            ),
-            models.UniqueConstraint(fields=['id'], name='unique_user_id'),
+            )
         ]
         indexes = [
             HashIndex(fields=['first_name'], name='%(class)s_first_name_hash_idx'),
