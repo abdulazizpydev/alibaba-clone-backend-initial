@@ -54,20 +54,6 @@ services:
     networks:
       - ecommerce_network
 
-  nginx:
-    container_name: ecommerce_nginx
-    image: nginx:latest
-    restart: always
-    ports:
-      - "80:80"
-    volumes:
-      - ./.nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - static_volume:/ecommerce/static
-    depends_on:
-      - ecommerce_app
-    networks:
-      - ecommerce_network
-
 networks:
   ecommerce_network:
 
