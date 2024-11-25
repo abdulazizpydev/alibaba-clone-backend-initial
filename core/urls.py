@@ -18,7 +18,7 @@ urlpatterns = [
     path("api/payment/", include("payment.urls", namespace="payment")),
     path("api/notifications/", include("notification.urls", namespace="notification")),
     path("api/coupons/", include("coupon.urls", namespace="coupon")),
-    path("api/wishlists/", include("wishlist.urls", namespace="wishlist")),
+    path("api/wishlist/", include("wishlist.urls", namespace="wishlist")),
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
