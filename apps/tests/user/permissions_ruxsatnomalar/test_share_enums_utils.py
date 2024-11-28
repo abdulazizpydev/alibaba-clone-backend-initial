@@ -32,7 +32,7 @@ def test_enums_policy_name_exists():
 @pytest.mark.django_db
 def test_utils_exists():
     try:
-        from share import utils
+        from share import utilssss
     except ImportError:
         assert False, f"utils file is missing"
 
