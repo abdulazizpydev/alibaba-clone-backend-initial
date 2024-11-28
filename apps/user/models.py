@@ -41,7 +41,7 @@ class Group(BaseModel):
         return self.name
 
 
-class User(AbstractBaseUser, PermissionsMixin, BaseModel):
+class Users(AbstractBaseUser, PermissionsMixin, BaseModel):
     """
     A user in the system.
     """
