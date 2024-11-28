@@ -20,7 +20,7 @@ def national_image_path(instance, filename):
     return f"national/{instance.user.username}/images/{filename}"
 
 
-class Groups(BaseModel):
+class Group(BaseModel):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=150, unique=True)
     policies = models.ManyToManyField("user.Policy", blank=True)
@@ -58,7 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         max_length=10, null=True, blank=True, choices=GenderChoices.choices()
     )
     groups = models.ManyToManyField(
-        Groups,
+        Group,
         verbose_name=_("groups"),
         blank=True,
         help_text=_(
